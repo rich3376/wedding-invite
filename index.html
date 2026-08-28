@@ -346,8 +346,11 @@
     transition:opacity 0.4s ease, transform 0.4s ease;
   }
   .music-toggle svg{ width:18px; height:18px; }
+  .music-toggle .icon-pause{ display:none; }
+  .music-toggle.is-playing .icon-play{ display:none; }
+  .music-toggle.is-playing .icon-pause{ display:block; }
   .music-toggle.visible{ opacity:1; pointer-events:auto; transform:scale(1); }
-  .music-toggle.is-playing svg{ animation:noteBob 1.8s ease-in-out infinite; }
+  .music-toggle.is-playing .icon-pause{ animation:noteBob 1.8s ease-in-out infinite; }
   @keyframes noteBob{
     0%,100%{ transform:translateY(0); }
     50%{ transform:translateY(-2px); }
@@ -560,8 +563,9 @@
 </div>
 
 <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
-<button class="music-toggle" id="musicToggle" aria-label="배경음악 재생/정지">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+<button class="music-toggle" id="musicToggle" aria-label="배경음악 재생">
+  <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+  <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="0.5"/><rect x="14" y="5" width="4" height="14" rx="0.5"/></svg>
 </button>
 
 <div class="toast" id="toast"></div>
@@ -569,22 +573,20 @@
 <script>
   // 봉투 열기
   const bgm = document.getElementById('bgm');
+  const musicBtn = document.getElementById('musicToggle');
 
   document.getElementById('openBtn').addEventListener('click', function(){
     document.getElementById('envelope').classList.add('opened');
     document.body.classList.remove('no-scroll');
-
-    // 배경음악 시작 (사용자 탭 = 오토플레이 정책 충족)
-    bgm.play().catch(function(){ /* 자동재생 실패 시 무시 - 토글 버튼으로 재생 가능 */ });
-    setMusicIcon(true);
-    document.getElementById('musicToggle').classList.add('visible');
+    musicBtn.classList.add('visible');
   });
 
   function setMusicIcon(playing){
-    document.getElementById('musicToggle').classList.toggle('is-playing', playing);
+    musicBtn.classList.toggle('is-playing', playing);
+    musicBtn.setAttribute('aria-label', playing ? '배경음악 정지' : '배경음악 재생');
   }
 
-  document.getElementById('musicToggle').addEventListener('click', function(){
+  musicBtn.addEventListener('click', function(){
     if (bgm.paused){
       bgm.play();
       setMusicIcon(true);
