@@ -199,16 +199,17 @@
   .cal-grid .day.blank{visibility:hidden;}
   .cal-grid .day.sat, .cal-grid .day.sun{color:var(--muted);}
   .cal-grid .day.mark{color:var(--white); font-weight:600;}
-  .mark-circle{
-    position:absolute; inset:2px; z-index:0;
+  .mark-heart{
+    position:absolute; inset:0; z-index:0;
   }
-  .mark-circle circle{
-    fill:none; stroke:var(--accent-deep); stroke-width:1.4;
-    stroke-dasharray:88; stroke-dashoffset:88;
-    transition:stroke-dashoffset 1.1s ease 0.15s;
+  .mark-heart path{
+    fill:#c23b34;
+    transform-origin:15px 15px;
+    transform:scale(0);
+    transition:transform 0.5s cubic-bezier(.34,1.56,.64,1) 0.15s;
   }
-  .mark-circle.fill circle{fill:var(--accent-deep);}
-  .in .mark-circle circle{stroke-dashoffset:0;}
+  .in .mark-heart path{ transform:scale(1); }
+  .cal-grid .day.mark span{ color:#fff; font-weight:700; text-shadow:0 1px 2px rgba(0,0,0,0.15); }
   .cal-grid .day.mark span{position:relative; z-index:1;}
 
   .countdown{
@@ -315,6 +316,12 @@
   .rsvp-thanks{display:none; text-align:center; font-size:13.5px; color:var(--accent-deep); padding-top:6px;}
   .rsvp-thanks.show{display:block;}
 
+  .msg-list{ margin-top:32px; display:flex; flex-direction:column; gap:12px; max-width:340px; margin-left:auto; margin-right:auto; }
+  .msg-item{ padding:14px 16px; border:1px solid var(--line); background:var(--paper-deep); }
+  .msg-item .msg-name{ font-size:12px; color:var(--accent-deep); letter-spacing:0.05em; margin-bottom:6px; font-weight:600; }
+  .msg-item .msg-body{ font-size:13.5px; color:var(--ink-soft); line-height:1.65; white-space:pre-wrap; }
+  .msg-empty{ text-align:center; font-size:12.5px; color:var(--muted); padding:8px 0; }
+
   /* ---------- Footer ---------- */
   #footer{text-align:center; padding-bottom:70px;}
   #footer .fmark{font-family:var(--serif-en); font-style:italic; font-size:15px; color:var(--muted); margin-bottom:16px;}
@@ -408,20 +415,19 @@
     <p class="reveal">저희 두 사람이 하나 되는 날,</p>
     <p class="reveal">귀한 걸음 하시어 축복해 주시면 감사하겠습니다.</p>
     <div class="signature-line reveal">
-      황명선 · 이미애 의 차남 <b>창윤</b><br>
-      한일 · 여태숙 의 장녀 <b>다솔</b>
+      <b>창윤</b> · <b>다솔</b> 올림
     </div>
   </section>
 
   <section id="date-sec">
     <div class="eyebrow reveal">Wedding Day</div>
     <div class="cal-title reveal">December, 2026</div>
-    <div class="cal-weekday reveal">일요일 오후 1시 30분</div>
+    <div class="cal-weekday reveal">2026년 12월 6일 · 일요일 오후 1시 30분</div>
     <div class="cal-grid reveal">
       <div class="dow">일</div><div class="dow">월</div><div class="dow">화</div><div class="dow">수</div><div class="dow">목</div><div class="dow">금</div><div class="dow">토</div>
       <div class="day blank"></div><div class="day blank"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day sat">5</div>
       <div class="day mark sun">
-        <svg class="mark-circle" viewBox="0 0 30 30"><circle cx="15" cy="15" r="13"/></svg>
+        <svg class="mark-heart" viewBox="0 0 30 30"><path d="M15 25.5C15 25.5 4 18.5 4 10.8C4 6.6 7.4 3.5 11.2 3.5C13 3.5 14.6 4.4 15 5.8C15.4 4.4 17 3.5 18.8 3.5C22.6 3.5 26 6.6 26 10.8C26 18.5 15 25.5 15 25.5Z"/></svg>
         <span>6</span>
       </div>
       <div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day sat">12</div>
@@ -485,7 +491,7 @@
       <div class="contact-row"><span class="who"><b>신부</b>한다솔</span>
         <span class="icon-btns"><a href="tel:01000000003" aria-label="전화">☎</a><a href="sms:01000000003" aria-label="문자">✉</a></span>
       </div>
-      <div class="contact-row"><span class="who"><b>아버지</b>한일</span>
+      <div class="contact-row"><span class="who"><b>아버지</b>한&nbsp;&nbsp;일</span>
         <span class="icon-btns"><a href="tel:01000000004" aria-label="전화">☎</a></span>
       </div>
       <div class="contact-row"><span class="who"><b>어머니</b>여태숙</span>
@@ -516,7 +522,7 @@
         </div>
         <div class="acc-block">
           <div class="side">BRIDE'S FATHER</div>
-          <div class="bank-row"><span>우리은행 1002-345-678901 (한일)</span><button class="copy-btn" data-copy="1002-345-678901">복사</button></div>
+          <div class="bank-row"><span>우리은행 1002-345-678901 (한&nbsp;&nbsp;일)</span><button class="copy-btn" data-copy="1002-345-678901">복사</button></div>
         </div>
       </div>
     </div>
@@ -526,10 +532,6 @@
     <div class="eyebrow reveal">RSVP</div>
     <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin-bottom:24px;" class="reveal">참석 여부를 미리 알려주시면<br>준비에 큰 도움이 됩니다.</p>
     <form class="rsvp-form reveal" id="rsvpForm">
-      <div>
-        <label>성함</label>
-        <input type="text" required placeholder="홍길동">
-      </div>
       <div>
         <label>참석 여부</label>
         <div class="radio-row">
@@ -543,14 +545,32 @@
           <option>1명</option><option>2명</option><option>3명</option><option>4명 이상</option>
         </select>
       </div>
-      <div>
-        <label>전달하실 말씀 (선택)</label>
-        <textarea placeholder="축하 메시지를 남겨주세요"></textarea>
-      </div>
       <button type="submit" class="rsvp-submit">전달하기</button>
       <div class="rsvp-thanks" id="rsvpThanks">따뜻한 마음 감사합니다 🤍</div>
     </form>
   </section>
+
+  <section id="message-section">
+    <div class="eyebrow reveal">Message</div>
+    <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin-bottom:24px;" class="reveal">축하의 말씀을 남겨주시면<br>소중히 간직하겠습니다.</p>
+    <form class="rsvp-form reveal" id="msgForm">
+      <div>
+        <label>성함</label>
+        <input type="text" id="msgName" required placeholder="홍길동">
+      </div>
+      <div>
+        <label>축하 메시지</label>
+        <textarea id="msgBody" required placeholder="축하 메시지를 남겨주세요" style="height:90px;"></textarea>
+      </div>
+      <button type="submit" class="rsvp-submit">메시지 남기기</button>
+    </form>
+    <div class="msg-list reveal" id="msgList">
+      <div class="msg-empty">메시지를 불러오는 중입니다…</div>
+    </div>
+  </section>
+
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
   <section id="footer">
     <div class="fmark reveal">Thank you</div>
@@ -701,6 +721,83 @@
   document.getElementById('rsvpForm').addEventListener('submit', function(e){
     e.preventDefault();
     document.getElementById('rsvpThanks').classList.add('show');
+  });
+
+  // 축하 메시지 방명록 (Firebase Firestore)
+  // 1) firebase.google.com 에서 무료 프로젝트 생성
+  // 2) Firestore Database 만들기 (프로덕션 모드)
+  // 3) 프로젝트 설정 > 내 앱 > 웹 앱 추가 후 아래 설정값 붙여넣기
+  // 4) Firestore 규칙에서 messages 컬렉션에 공개 읽기/쓰기(수정·삭제는 막기) 허용 필요
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const msgForm = document.getElementById('msgForm');
+  const msgList = document.getElementById('msgList');
+  let db = null;
+
+  if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('YOUR_')){
+    try{
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    }catch(e){ console.error(e); }
+  }
+
+  function renderMessages(snapshot){
+    if (snapshot.empty){
+      msgList.innerHTML = '<div class="msg-empty">아직 남겨진 메시지가 없습니다. 첫 메시지를 남겨주세요.</div>';
+      return;
+    }
+    msgList.innerHTML = '';
+    snapshot.forEach(function(doc){
+      const d = doc.data();
+      const item = document.createElement('div');
+      item.className = 'msg-item';
+      const nameEl = document.createElement('div');
+      nameEl.className = 'msg-name';
+      nameEl.textContent = d.name || '익명';
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'msg-body';
+      bodyEl.textContent = d.message || '';
+      item.appendChild(nameEl);
+      item.appendChild(bodyEl);
+      msgList.appendChild(item);
+    });
+  }
+
+  if (db){
+    db.collection('messages').orderBy('createdAt', 'desc').limit(50)
+      .onSnapshot(renderMessages, function(){
+        msgList.innerHTML = '<div class="msg-empty">메시지를 불러오지 못했습니다.</div>';
+      });
+  } else {
+    msgList.innerHTML = '<div class="msg-empty">방명록은 Firebase 설정 후 표시됩니다.</div>';
+  }
+
+  msgForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('msgName').value.trim();
+    const body = document.getElementById('msgBody').value.trim();
+    if (!name || !body) return;
+    if (!db){
+      showToast('Firebase 설정이 필요합니다');
+      return;
+    }
+    db.collection('messages').add({
+      name: name,
+      message: body,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      msgForm.reset();
+      showToast('메시지가 등록되었습니다');
+    }).catch(function(){
+      showToast('전송에 실패했습니다');
+    });
   });
 </script>
 
