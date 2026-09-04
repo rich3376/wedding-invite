@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>축하 메시지 확인</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+<style>
+  :root{
+    --paper:#f6f5f2;
+    --paper-deep:#efede7;
+    --ink:#26292c;
+    --ink-soft:#565a54;
+    --muted:#a39d8f;
+    --accent-deep:#5f6851;
+    --line:#d9d6cd;
+    --serif-kr:'Noto Serif KR', serif;
+    --serif-en:'Cormorant Garamond', serif;
+    --sans:'PretendardVariable','Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:var(--sans); background:var(--paper-deep); color:var(--ink);
+    min-height:100vh; -webkit-font-smoothing:antialiased;
+  }
+  .frame{ max-width:480px; margin:0 auto; background:var(--paper); min-height:100vh; box-shadow:0 0 60px rgba(0,0,0,0.08); }
+  .wrap{ padding:80px 28px; }
+  .eyebrow{ font-family:var(--serif-en); font-size:12px; letter-spacing:0.3em; text-transform:uppercase; color:var(--accent-deep); text-align:center; margin-bottom:14px;}
+  h1{ font-family:var(--serif-kr); font-weight:300; font-size:24px; text-align:center; margin-bottom:40px; }
+
+  .gate{ text-align:center; }
+  .gate p{ font-size:13.5px; color:var(--ink-soft); line-height:1.8; margin-bottom:28px; }
+  .google-btn{
+    display:inline-flex; align-items:center; gap:10px; justify-content:center;
+    border:1px solid var(--line); background:#fff; color:var(--ink);
+    padding:13px 24px; font-size:14px; font-family:inherit; cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06); transition:transform .2s ease;
+  }
+  .google-btn:hover{ transform:translateY(-1px); }
+  .google-btn svg{ width:18px; height:18px; }
+
+  .denied{ display:none; text-align:center; }
+  .denied.show{ display:block; }
+  .denied p{ font-size:13.5px; color:#b5453f; margin-bottom:20px; line-height:1.7; }
+  .signout-link{ font-size:12.5px; color:var(--muted); text-decoration:underline; background:none; border:none; cursor:pointer; }
+
+  .list{ display:none; flex-direction:column; gap:14px; }
+  .list.show{ display:flex; }
+  .msg-item{ padding:16px 18px; border:1px solid var(--line); background:var(--paper-deep); }
+  .msg-name{ font-size:12.5px; color:var(--accent-deep); font-weight:600; letter-spacing:0.03em; margin-bottom:4px; }
+  .msg-date{ font-size:11px; color:var(--muted); margin-bottom:10px; }
+  .msg-body{ font-size:14px; color:var(--ink-soft); line-height:1.7; white-space:pre-wrap; }
+  .empty{ text-align:center; font-size:13px; color:var(--muted); padding:20px 0; }
+
+  .top-bar{ display:none; justify-content:space-between; align-items:center; margin-bottom:28px; }
+  .top-bar.show{ display:flex; }
+  .top-bar .who{ font-size:12px; color:var(--muted); }
+
+  .loading{ text-align:center; font-size:13px; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="wrap">
+    <div class="eyebrow">Private</div>
+    <h1>축하 메시지 확인</h1>
+
+    <div class="top-bar" id="topBar">
+      <span class="who" id="whoText"></span>
+      <button class="signout-link" id="signOutBtn">로그아웃</button>
+    </div>
+
+    <div class="gate" id="gate">
+      <p>신랑·신부 본인만 열람할 수 있는<br>비공개 페이지입니다.</p>
+      <button class="google-btn" id="googleBtn">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.5-.2-2.2H12v4.2h6.5c-.1 1-.9 2.6-2.6 3.7l4 3.1c2.3-2.2 3.6-5.4 3.6-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-4-3.1c-1.1.7-2.4 1.2-3.9 1.2-3 0-5.6-2-6.5-4.8l-4.1 3.2C3.5 21.3 7.4 24 12 24z"/><path fill="#FBBC05" d="M5.5 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4L1.4 6.4C.5 8.1 0 10 0 12s.5 3.9 1.4 5.6l4.1-3.2z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.5-3.5C17.9 1.2 15.2 0 12 0 7.4 0 3.5 2.7 1.4 6.4l4.1 3.2C6.4 6.8 9 4.8 12 4.8z"/></svg>
+        Google로 로그인
+      </button>
+    </div>
+
+    <div class="denied" id="denied">
+      <p>이 계정은 열람 권한이 없습니다.</p>
+      <button class="signout-link" id="signOutBtn2">다른 계정으로 로그인</button>
+    </div>
+
+    <div class="loading" id="loadingMsg" style="display:none;">메시지를 불러오는 중입니다…</div>
+    <div class="list" id="list"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.13.0/firebase-app-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.13.0/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.13.0/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDqg2U5yWWzrrm-twr9VHZoXK0a58Dk87A",
+    authDomain: "wedding-invite-224ca.firebaseapp.com",
+    projectId: "wedding-invite-224ca",
+    storageBucket: "wedding-invite-224ca.firebasestorage.app",
+    messagingSenderId: "1015652338251",
+    appId: "1:1015652338251:web:5a844f1bd49d31db2b9bce"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const ALLOWED_EMAILS = ['leechangyoon37@gmail.com'];
+
+  const gate = document.getElementById('gate');
+  const denied = document.getElementById('denied');
+  const list = document.getElementById('list');
+  const loadingMsg = document.getElementById('loadingMsg');
+  const topBar = document.getElementById('topBar');
+  const whoText = document.getElementById('whoText');
+
+  document.getElementById('googleBtn').addEventListener('click', function(){
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(function(err){
+      alert('로그인에 실패했습니다: ' + err.message);
+    });
+  });
+
+  function doSignOut(){
+    auth.signOut();
+  }
+  document.getElementById('signOutBtn').addEventListener('click', doSignOut);
+  document.getElementById('signOutBtn2').addEventListener('click', doSignOut);
+
+  function renderMessages(snapshot){
+    if (snapshot.empty){
+      list.innerHTML = '<div class="empty">아직 남겨진 메시지가 없습니다.</div>';
+      return;
+    }
+    list.innerHTML = '';
+    snapshot.forEach(function(doc){
+      const d = doc.data();
+      const item = document.createElement('div');
+      item.className = 'msg-item';
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'msg-name';
+      nameEl.textContent = d.name || '익명';
+
+      const dateEl = document.createElement('div');
+      dateEl.className = 'msg-date';
+      if (d.createdAt && d.createdAt.toDate){
+        const dt = d.createdAt.toDate();
+        dateEl.textContent = dt.getFullYear() + '.' + String(dt.getMonth()+1).padStart(2,'0') + '.' + String(dt.getDate()).padStart(2,'0');
+      }
+
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'msg-body';
+      bodyEl.textContent = d.message || '';
+
+      item.appendChild(nameEl);
+      item.appendChild(dateEl);
+      item.appendChild(bodyEl);
+      list.appendChild(item);
+    });
+  }
+
+  auth.onAuthStateChanged(function(user){
+    gate.style.display = 'none';
+    denied.classList.remove('show');
+    topBar.classList.remove('show');
+    list.classList.remove('show');
+    loadingMsg.style.display = 'none';
+
+    if (!user){
+      gate.style.display = 'block';
+      return;
+    }
+
+    if (!ALLOWED_EMAILS.includes(user.email)){
+      denied.classList.add('show');
+      return;
+    }
+
+    topBar.classList.add('show');
+    whoText.textContent = user.email;
+    loadingMsg.style.display = 'block';
+
+    db.collection('messages').orderBy('createdAt', 'desc').limit(100).get()
+      .then(function(snapshot){
+        loadingMsg.style.display = 'none';
+        list.classList.add('show');
+        renderMessages(snapshot);
+      })
+      .catch(function(err){
+        loadingMsg.style.display = 'none';
+        list.classList.add('show');
+        list.innerHTML = '<div class="empty">메시지를 불러오지 못했습니다: ' + err.message + '</div>';
+      });
+  });
+</script>
+</body>
+</html>
