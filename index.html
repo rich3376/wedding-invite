@@ -288,6 +288,23 @@
   .acc-inner{padding-top:22px;}
   .acc-block{margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid var(--line);}
   .acc-block:last-child{border-bottom:none;}
+  .acc-subtoggle{
+    width:100%; background:transparent; border:none; border-bottom:1px solid var(--ink);
+    padding:10px 2px; font-family:var(--serif-en); font-style:italic; font-size:13.5px;
+    color:var(--accent-deep); letter-spacing:0.03em;
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:10px; margin-bottom:12px;
+  }
+  .acc-subtoggle:first-child{ margin-top:0; }
+  .acc-subtoggle .plus{ transition:transform 0.3s ease; font-size:14px; color:var(--muted); }
+  .acc-subtoggle.open .plus{ transform:rotate(45deg); }
+  .acc-subbody{ max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+  .acc-subbody.open{ max-height:600px; }
+  .acc-group-title{
+    font-family:var(--serif-en); font-style:italic; font-size:13.5px;
+    color:var(--accent-deep); letter-spacing:0.03em; margin:0 0 10px;
+  }
+  .acc-group-title:not(:first-child){ margin-top:6px; }
   .acc-block .side{font-size:11px; letter-spacing:0.15em; color:var(--muted); margin-bottom:6px;}
   .acc-block .bank-row{
     display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
@@ -450,34 +467,12 @@
     </div>
   </section>
 
-  <section id="location">
-    <div class="eyebrow reveal">Location</div>
-    <div class="venue-name reveal">센텀사이언스파크 웨딩홀</div>
-    <div class="venue-addr reveal">부산광역시 해운대구 센텀중앙로 79<br>23층 더 스카이홀</div>
-    <div class="map-box reveal" id="kakaoMap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
-      지도를 불러오는 중입니다
-    </div>
-    <div class="btn-row reveal">
-      <a class="pill-btn" id="mapLink" href="#" target="_blank" rel="noopener">지도 앱에서 보기</a>
-      <button class="pill-btn" id="addrCopy">주소 복사</button>
-    </div>
-    <dl class="transport reveal">
-      <dt>지하철</dt>
-      <dd>2호선 센텀시티역 4·6번 출구 도보 10분<br>(4번 출구 앞 셔틀버스 20분 간격)</dd>
-      <dt>버스</dt>
-      <dd>1001번, 1002번</dd>
-      <dt>주차</dt>
-      <dd>웨딩홀 내 지하주차장 400대, 3시간 무료<br>만차 시 건너편 스카이비즈 600대, 3시간 무료</dd>
-    </dl>
-  </section>
-
   <section id="contact">
     <div class="eyebrow reveal">Contact</div>
     <div class="contact-group reveal">
       <h4>Groom's Side</h4>
       <div class="contact-row"><span class="who"><b>신랑</b>이창윤</span>
-        <span class="icon-btns"><a href="tel:01000000000" aria-label="전화">☎</a><a href="sms:01000000000" aria-label="문자">✉</a></span>
+        <span class="icon-btns"><a href="tel:01030379322" aria-label="전화">☎</a><a href="sms:01030379322" aria-label="문자">✉</a></span>
       </div>
       <div class="contact-row"><span class="who"><b>아버지</b>황명선</span>
         <span class="icon-btns"><a href="tel:01000000001" aria-label="전화">☎</a></span>
@@ -492,10 +487,10 @@
         <span class="icon-btns"><a href="tel:01000000003" aria-label="전화">☎</a><a href="sms:01000000003" aria-label="문자">✉</a></span>
       </div>
       <div class="contact-row"><span class="who"><b>아버지</b>한&nbsp;&nbsp;일</span>
-        <span class="icon-btns"><a href="tel:01000000004" aria-label="전화">☎</a></span>
+        <span class="icon-btns"><a href="tel:01095121132" aria-label="전화">☎</a></span>
       </div>
       <div class="contact-row"><span class="who"><b>어머니</b>여태숙</span>
-        <span class="icon-btns"><a href="tel:01000000005" aria-label="전화">☎</a></span>
+        <span class="icon-btns"><a href="tel:01095120308" aria-label="전화">☎</a></span>
       </div>
     </div>
   </section>
@@ -508,9 +503,11 @@
     <button class="acc-toggle reveal" id="accToggle"><span>마음 전하실 곳 보기</span><span class="plus">+</span></button>
     <div class="acc-body" id="accBody">
       <div class="acc-inner">
+        <button class="acc-subtoggle" data-target="groomAcc"><span>신랑측</span><span class="plus">+</span></button>
+        <div class="acc-subbody" id="groomAcc">
         <div class="acc-block">
           <div class="side">GROOM</div>
-          <div class="bank-row"><span>카카오뱅크 123-4567-8901 (이창윤)</span><button class="copy-btn" data-copy="123-4567-8901">복사</button></div>
+          <div class="bank-row"><span>농협 302-0553-0924-01 (이창윤)</span><button class="copy-btn" data-copy="302-0553-0924-01">복사</button></div>
         </div>
         <div class="acc-block">
           <div class="side">GROOM'S FATHER</div>
@@ -518,19 +515,23 @@
         </div>
         <div class="acc-block">
           <div class="side">GROOM'S MOTHER</div>
-          <div class="bank-row"><span>[은행명 계좌번호 입력] (이미애)</span><button class="copy-btn" data-copy="">복사</button></div>
+          <div class="bank-row"><span>농협 813012-52-035005 (이미애)</span><button class="copy-btn" data-copy="813012-52-035005">복사</button></div>
         </div>
+        </div>
+        <button class="acc-subtoggle" data-target="brideAcc"><span>신부측</span><span class="plus">+</span></button>
+        <div class="acc-subbody" id="brideAcc">
         <div class="acc-block">
           <div class="side">BRIDE</div>
           <div class="bank-row"><span>국민은행 123456-78-901234 (한다솔)</span><button class="copy-btn" data-copy="123456-78-901234">복사</button></div>
         </div>
         <div class="acc-block">
           <div class="side">BRIDE'S FATHER</div>
-          <div class="bank-row"><span>우리은행 1002-345-678901 (한&nbsp;&nbsp;일)</span><button class="copy-btn" data-copy="1002-345-678901">복사</button></div>
+          <div class="bank-row"><span>부산은행 248-12-021323-5 (한&nbsp;&nbsp;일)</span><button class="copy-btn" data-copy="248-12-021323-5">복사</button></div>
         </div>
         <div class="acc-block">
           <div class="side">BRIDE'S MOTHER</div>
-          <div class="bank-row"><span>[은행명 계좌번호 입력] (여태숙)</span><button class="copy-btn" data-copy="">복사</button></div>
+          <div class="bank-row"><span>부산은행 248-12-032802-4 (여태숙)</span><button class="copy-btn" data-copy="248-12-032802-4">복사</button></div>
+        </div>
         </div>
       </div>
     </div>
@@ -556,6 +557,28 @@
       <button type="submit" class="rsvp-submit">전달하기</button>
       <div class="rsvp-thanks" id="rsvpThanks">따뜻한 마음 감사합니다 🤍</div>
     </form>
+  </section>
+
+  <section id="location">
+    <div class="eyebrow reveal">Location</div>
+    <div class="venue-name reveal">센텀사이언스파크 웨딩홀</div>
+    <div class="venue-addr reveal">부산광역시 해운대구 센텀중앙로 79<br>23층 더 스카이홀</div>
+    <div class="map-box reveal" id="kakaoMap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+      지도를 불러오는 중입니다
+    </div>
+    <div class="btn-row reveal">
+      <a class="pill-btn" id="mapLink" href="#" target="_blank" rel="noopener">지도 앱에서 보기</a>
+      <button class="pill-btn" id="addrCopy">주소 복사</button>
+    </div>
+    <dl class="transport reveal">
+      <dt>지하철</dt>
+      <dd>2호선 센텀시티역 4·6번 출구 도보 10분<br>(4번 출구 앞 셔틀버스 20분 간격)</dd>
+      <dt>버스</dt>
+      <dd>1001번, 1002번</dd>
+      <dt>주차</dt>
+      <dd>웨딩홀 내 지하주차장 400대, 3시간 무료<br>만차 시 건너편 스카이비즈 600대, 3시간 무료</dd>
+    </dl>
   </section>
 
   <section id="message-section">
@@ -584,6 +607,7 @@
     <div class="share-row reveal">
       <button id="shareCopy">청첩장 링크 복사</button>
     </div>
+    <a href="messages.html" style="display:block; text-align:center; margin-top:28px; font-size:11px; color:var(--muted); letter-spacing:0.05em; text-decoration:none;">메시지 확인</a>
   </section>
 
 </div>
@@ -721,6 +745,14 @@
     accToggle.classList.toggle('open');
     accBody.classList.toggle('open');
     accToggle.querySelector('span').textContent = accBody.classList.contains('open') ? '마음 전하실 곳 닫기' : '마음 전하실 곳 보기';
+  });
+
+  document.querySelectorAll('.acc-subtoggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const target = document.getElementById(btn.dataset.target);
+      btn.classList.toggle('open');
+      target.classList.toggle('open');
+    });
   });
 
   // RSVP (실제 전송 없음 — 화면 안내만)
