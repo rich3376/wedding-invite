@@ -129,7 +129,7 @@
   }
 
   /* ---------- Sections shared ---------- */
-  section{padding:88px 32px; position:relative;}
+  section{padding:66px 32px; position:relative;}
   .eyebrow{
     font-family:var(--serif-en); font-size:12px; letter-spacing:0.35em;
     text-transform:uppercase; color:var(--accent-deep); text-align:center;
@@ -390,7 +390,7 @@
   }
 
   @media (max-width: 380px){
-    section{padding:64px 22px;}
+    section{padding:50px 22px;}
     #hero{padding-top:64px;}
     #hero .headline{font-size:27px;}
     #hero .kr-names{font-size:13.5px; letter-spacing:0.2em;}
@@ -535,7 +535,7 @@
         <div class="acc-subbody" id="brideAcc">
         <div class="acc-block">
           <div class="side">BRIDE</div>
-          <div class="bank-row"><span>국민은행 123456-78-901234 (한다솔)</span><button class="copy-btn" data-copy="123456-78-901234">복사</button></div>
+          <div class="bank-row"><span>토스뱅크 1000-7822-0949 (한다솔)</span><button class="copy-btn" data-copy="1000-7822-0949">복사</button></div>
         </div>
         <div class="acc-block">
           <div class="side">BRIDE'S FATHER</div>
@@ -647,6 +647,12 @@
     document.getElementById('envelope').classList.add('opened');
     document.body.classList.remove('no-scroll');
     musicBtn.classList.add('visible');
+    bgm.play().then(function(){
+      setMusicIcon(true);
+    }).catch(function(){
+      // 일부 브라우저에서 자동재생이 막히면 토글 버튼으로 재생 가능
+      setMusicIcon(false);
+    });
   });
 
   function setMusicIcon(playing){
