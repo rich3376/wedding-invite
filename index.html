@@ -163,13 +163,9 @@
   }
   .photo-box{
     margin:52px auto 0; width:100%; aspect-ratio:4/5; max-width:320px;
-    background:
-      linear-gradient(160deg, var(--paper-deep), #e5e2d9);
-    border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--muted); font-size:12px; letter-spacing:0.15em;
-    text-align:center; padding:20px;
+    border:1px solid var(--line); overflow:hidden; cursor:pointer;
   }
+  .photo-box img{ width:100%; height:100%; object-fit:cover; object-position:50% 25%; display:block; }
 
   /* ---------- Invitation message ---------- */
   #message p{
@@ -226,11 +222,24 @@
   .gal-grid{
     display:grid; grid-template-columns:repeat(3,1fr); gap:6px;
   }
-  .gal-grid div{
-    aspect-ratio:1/1;
-    background:linear-gradient(150deg, #ece9e1, #dedad0);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--muted); font-size:10px;
+  .gal-grid img{
+    width:100%; aspect-ratio:1/1; object-fit:cover; display:block; cursor:pointer;
+  }
+
+  .lightbox{
+    position:fixed; inset:0; z-index:150; background:rgba(20,20,20,0.92);
+    display:none; align-items:center; justify-content:center; padding:24px;
+  }
+  .lightbox.show{ display:flex; }
+  .lightbox img{
+    max-width:100%; max-height:100%; object-fit:contain;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+  }
+  .lightbox-close{
+    position:absolute; top:20px; right:20px; width:40px; height:40px;
+    border-radius:50%; border:none; background:rgba(255,255,255,0.12);
+    color:#fff; font-size:20px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
   }
 
   /* ---------- Location ---------- */
@@ -422,7 +431,7 @@
     <div class="headline">두 사람이 하나 되어<br>새로운 삶을 시작합니다</div>
     <div class="en-names">Changyun &amp; Dasol</div>
     <div class="sub-date">2026. 12. 06 SUN · PM 1:30</div>
-    <div class="photo-box reveal">신랑 신부 사진<br>(이미지 교체 영역)</div>
+    <div class="photo-box reveal" onclick="openLightbox('hero.jpg')"><img src="hero.jpg" alt="신랑 신부 사진"></div>
   </section>
 
   <section id="message">
@@ -462,8 +471,12 @@
   <section id="gallery">
     <div class="eyebrow reveal">Gallery</div>
     <div class="gal-grid reveal">
-      <div>01</div><div>02</div><div>03</div>
-      <div>04</div><div>05</div><div>06</div>
+      <img src="gallery-1.jpg" style="object-position:50% 45%;" onclick="openLightbox('gallery-1.jpg')" alt="">
+      <img src="gallery-2.jpg" style="object-position:50% 40%;" onclick="openLightbox('gallery-2.jpg')" alt="">
+      <img src="gallery-3.jpg" style="object-position:42% 50%;" onclick="openLightbox('gallery-3.jpg')" alt="">
+      <img src="gallery-4.jpg" style="object-position:50% 25%;" onclick="openLightbox('gallery-4.jpg')" alt="">
+      <img src="gallery-5.jpg" style="object-position:50% 38%;" onclick="openLightbox('gallery-5.jpg')" alt="">
+      <img src="gallery-6.jpg" style="object-position:50% 20%;" onclick="openLightbox('gallery-6.jpg')" alt="">
     </div>
   </section>
 
@@ -620,6 +633,11 @@
 
 <div class="toast" id="toast"></div>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+  <img id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
 <script>
   // 봉투 열기
   const bgm = document.getElementById('bgm');
@@ -716,6 +734,18 @@
   }
 
   // 토스트
+  function openLightbox(src){
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('show');
+  }
+  function closeLightbox(e){
+    if (e) e.stopPropagation();
+    document.getElementById('lightbox').classList.remove('show');
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeLightbox();
+  });
+
   function showToast(msg){
     const t = document.getElementById('toast');
     t.textContent = msg;
